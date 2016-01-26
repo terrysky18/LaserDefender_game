@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+    public float laser_speed;
+    public GameObject player_laser_prefab;
+
     private float ship_speed;
 
     //direction variables
@@ -39,18 +42,15 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         CheckKeyDown();
+        PlayerMove();
 
-        // make ship velocity frame rate independent, use Time.deltaTime
-        float hori_delta = hori_direct * ship_speed * Time.deltaTime;
-        float vert_delta = vert_direct * ship_speed * Time.deltaTime;
-
-        float hori_pos = Mathf.Clamp(transform.position.x + hori_delta, x_min, x_max);
-        float vert_pos = Mathf.Clamp(transform.position.y + vert_delta, y_min, y_max);
-        Vector3 ship_Pos = new Vector3(hori_pos, vert_pos, 0);
-        transform.position = ship_Pos;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerShoot();
+        }
     }
 
-    void CheckKeyDown()
+    void CheckKeyDown ()
     {
         // check horizontal direction
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -79,5 +79,26 @@ public class PlayerController : MonoBehaviour {
         {
             vert_direct = 0f;
         }
+    }
+
+    void PlayerMove()
+    {
+        // make ship velocity frame rate independent, use Time.deltaTime
+        float hori_delta = hori_direct * ship_speed * Time.deltaTime;
+        float vert_delta = vert_direct * ship_speed * Time.deltaTime;
+
+        float hori_pos = Mathf.Clamp(transform.position.x + hori_delta, x_min, x_max);
+        float vert_pos = Mathf.Clamp(transform.position.y + vert_delta, y_min, y_max);
+        Vector3 ship_Pos = new Vector3(hori_pos, vert_pos, 0);
+        transform.position = ship_Pos;
+    }
+
+    void PlayerShoot()
+    {
+        GameObject player_laser = Instantiate(player_laser_prefab, transform.position, Quaternion.identity) as GameObject;
+        float laser_speed = 15f;
+        float laser_y_pos = player_laser.transform.position.y + laser_speed * Time.deltaTime;
+        Vector3 laser_pos = new Vector3(player_laser.transform.position.x, laser_y_pos, 0);
+        player_laser.transform.position = laser_pos;
     }
 }

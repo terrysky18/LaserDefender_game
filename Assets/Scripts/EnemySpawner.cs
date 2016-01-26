@@ -51,7 +51,7 @@ public class EnemySpawner : MonoBehaviour {
         }
 	}
 
-    public void OnDrawGizmos()
+    public void OnDrawGizmos ()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(width, height, 0f));
     }
@@ -62,9 +62,9 @@ public class EnemySpawner : MonoBehaviour {
 	}
 
     // Enemy formation moves in a box pattern
-    void BoxMovement()
+    void BoxMovement ()
     {
-        float step = 2f;
+        float step = 6f;
         Vector3 formation_pos = new Vector3(0f, 0f, 0f);
         // move vertically
         if (x_at_limit || y_moving)
