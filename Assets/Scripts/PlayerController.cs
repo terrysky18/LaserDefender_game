@@ -4,10 +4,10 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     public float laser_speed;
-    public GameObject player_laser_prefab;
+    public GameObject projectile_prefab;
 
     private float ship_speed;
-
+    private Rigidbody2D rb2D;
     //direction variables
     private float hori_direct;
     private float vert_direct;
@@ -44,9 +44,14 @@ public class PlayerController : MonoBehaviour {
         CheckKeyDown();
         PlayerMove();
 
+        // player shoots
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlayerShoot();
+            GameObject player_laser = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
+            Vector2 laser_velocity = new Vector2(0, laser_speed);
+            // attach a Rigidbody2D to the laser beam
+            rb2D = player_laser.GetComponent<Rigidbody2D>();
+            rb2D.velocity = laser_velocity;
         }
     }
 
@@ -91,14 +96,5 @@ public class PlayerController : MonoBehaviour {
         float vert_pos = Mathf.Clamp(transform.position.y + vert_delta, y_min, y_max);
         Vector3 ship_Pos = new Vector3(hori_pos, vert_pos, 0);
         transform.position = ship_Pos;
-    }
-
-    void PlayerShoot()
-    {
-        GameObject player_laser = Instantiate(player_laser_prefab, transform.position, Quaternion.identity) as GameObject;
-        float laser_speed = 15f;
-        float laser_y_pos = player_laser.transform.position.y + laser_speed * Time.deltaTime;
-        Vector3 laser_pos = new Vector3(player_laser.transform.position.x, laser_y_pos, 0);
-        player_laser.transform.position = laser_pos;
     }
 }
