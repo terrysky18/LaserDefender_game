@@ -3,7 +3,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-    public float laser_speed;
     public GameObject projectile_prefab;
 
     private float ship_speed;
@@ -47,11 +46,12 @@ public class PlayerController : MonoBehaviour {
         // player shoots
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject player_laser = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
-            Vector2 laser_velocity = new Vector2(0, laser_speed);
-            // attach a Rigidbody2D to the laser beam
-            rb2D = player_laser.GetComponent<Rigidbody2D>();
-            rb2D.velocity = laser_velocity;
+            InvokeRepeating("PlayerShoot", 0f, 0.2f);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            CancelInvoke("PlayerShoot");
         }
     }
 
@@ -96,5 +96,13 @@ public class PlayerController : MonoBehaviour {
         float vert_pos = Mathf.Clamp(transform.position.y + vert_delta, y_min, y_max);
         Vector3 ship_Pos = new Vector3(hori_pos, vert_pos, 0);
         transform.position = ship_Pos;
+    }
+
+    void PlayerShoot()
+    {
+        GameObject player_laser = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
+        // attach a Rigidbody2D to the laser beam
+        rb2D = player_laser.GetComponent<Rigidbody2D>();
+        rb2D.velocity = new Vector2(0, 16f);
     }
 }
