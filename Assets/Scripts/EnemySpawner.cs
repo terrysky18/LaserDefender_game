@@ -70,7 +70,7 @@ public class EnemySpawner : MonoBehaviour {
         if (x_at_limit || y_moving)
         {
             y_moving = true; // continue moving y until at limit
-            Debug.Log("moving y " + y_direct);
+            //Debug.Log("moving y " + y_direct);
             float y_pos = transform.position.y;
 
             y_pos += step * y_direct * Time.deltaTime;
@@ -78,18 +78,19 @@ public class EnemySpawner : MonoBehaviour {
             
             if (y_pos > y_max || y_pos < y_min)
             {
+                // reaches vertical position limits
                 y_at_limit = true;
                 y_moving = false;
                 x_at_limit = false;
-                Debug.Log("stop moving y");
-                y_direct *= -1f;    // reverse direction
+                //Debug.Log("stop moving y");
+                y_direct *= -1f;    // reverse y direction
             }
         }
         // move horizontally
         if (y_at_limit || x_moving)
         {
             x_moving = true;    // continue moving x until at limit
-            Debug.Log("moving x " + x_direct);
+            //Debug.Log("moving x " + x_direct);
             float x_pos = transform.position.x;
 
             x_pos += step * x_direct * Time.deltaTime;
@@ -97,15 +98,16 @@ public class EnemySpawner : MonoBehaviour {
 
             if (x_pos > x_max || x_pos < x_min)
             {
+                // reaches horizontal position limits
                 x_at_limit = true;
                 x_moving = false;
                 y_at_limit = false;
-                Debug.Log("stop moving x");
-                x_direct *= -1f;
+                //Debug.Log("stop moving x");
+                x_direct *= -1f;    // reverse x direction
             }
         }
 
         transform.position = formation_pos;
-        Debug.Log(transform.position);
+        //Debug.Log(transform.position);
     }
 }
