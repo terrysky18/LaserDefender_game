@@ -58,8 +58,26 @@ public class EnemySpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        BoxMovement();
+        //BoxMovement();
+        Side2SideMove();
 	}
+
+    // Enemy formation moves from side to side
+    void Side2SideMove()
+    {
+        float step = 8f;
+        Vector3 formation_pos = new Vector3(0f, 0f, 0f);
+        float x_pos = transform.position.x;
+
+        if (x_pos > x_max || x_pos < x_min)
+        {
+            x_direct *= -1f;
+        }
+
+        x_pos += step * x_direct * Time.deltaTime;
+        formation_pos = new Vector3(x_pos, transform.position.y, 0f);
+        transform.position = formation_pos;
+    }
 
     // Enemy formation moves in a box pattern
     void BoxMovement ()
@@ -75,7 +93,7 @@ public class EnemySpawner : MonoBehaviour {
 
             y_pos += step * y_direct * Time.deltaTime;
             formation_pos = new Vector3(transform.position.x, y_pos, 0f);
-            
+
             if (y_pos > y_max || y_pos < y_min)
             {
                 // reaches vertical position limits

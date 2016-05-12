@@ -17,11 +17,15 @@ public class PlayerController : MonoBehaviour {
     private float y_min;
     private float y_max;
 
+    //player ship health
+    private float health;
+
 	// Use this for initialization
 	void Start () {
         ship_speed = 5.8f;
         hori_direct = 0f;
         vert_direct = 0f;
+        health = 250f;
 
         //use camera view to clamp the ship position
         // distance between object and camera
@@ -100,9 +104,28 @@ public class PlayerController : MonoBehaviour {
 
     void PlayerShoot()
     {
-        GameObject player_laser = Instantiate(projectile_prefab, transform.position, Quaternion.identity) as GameObject;
+        Vector3 offset = new Vector3(0, 1.2f, 0);
+        GameObject player_laser = Instantiate(projectile_prefab, transform.position+offset, Quaternion.identity) as GameObject;
         // attach a Rigidbody2D to the laser beam
         rb2D = player_laser.GetComponent<Rigidbody2D>();
         rb2D.velocity = new Vector2(0, 16f);
+    }
+
+    // Detect enemy laser beam hit
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        // extract a Projectile object
+        Projectile eLaser_beam = collider.gameObject.GetComponent<Projectile>();
+        if (eLaser_beam)
+        {
+            Debug.Log("Hit by Enemy laser");
+            // enemy laser beam hit
+            health -= eLaser_beam.GetDamage();
+            eLaser_beam.Hit();
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }
