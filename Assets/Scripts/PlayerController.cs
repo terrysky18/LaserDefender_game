@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour {
 
     void PlayerShoot()
     {
-        Vector3 offset = new Vector3(0, 1.2f, 0);
+        Vector3 offset = new Vector3(0, 0.25f, 0);
         GameObject player_laser = Instantiate(projectile_prefab, transform.position+offset, Quaternion.identity) as GameObject;
         // attach a Rigidbody2D to the laser beam
         rb2D = player_laser.GetComponent<Rigidbody2D>();

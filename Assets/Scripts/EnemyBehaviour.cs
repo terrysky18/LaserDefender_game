@@ -38,7 +38,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void Shoot()
     {
-        Vector3 start_pos = transform.position + new Vector3(0, -3f, 0);
+        Vector3 start_pos = transform.position + new Vector3(0, -0.3f, 0);
         GameObject enemy_laser = Instantiate(eProjectile_prefab, start_pos, Quaternion.identity) as GameObject;
         // attach a Rigidbody2D to the laser beam
         eRb2D = enemy_laser.GetComponent<Rigidbody2D>();
